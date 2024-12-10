@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WorldWideNews.Models.Dtos
-{
+{ 
     public class ReporterDto
     {
         public int ID { get; set; }

@@ -1,11 +1,13 @@
-﻿namespace WorldWideNews.API.Repository.Interfaces
+﻿using WorldWideNews.API.Entities;
+
+namespace WorldWideNews.API.Repository.Interfaces
 {
-    public class ICategoryRepository
+    public interface ICategoryRepository
     {
-        Task<ICollection<NewsCategory>> GetCategories();
-        Task<NewsCategory> GetNewsCategory(string CategoryName);
-        Task<bool> AddNewCategory(NewsCategory NewCategory);
-        Task<bool> UpdateCategory(NewsCategory NewCategory);
+        Task<ICollection<Category>> GetCategories();
+        Task<Category> GetNewsCategory(string CategoryName);
+        Task<bool> AddNewCategory(Category NewCategory);
+        Task<bool> UpdateCategory(Category NewCategory);
         Task<bool> DeleteCategory(int ID);
         Task<bool> Save();
     }

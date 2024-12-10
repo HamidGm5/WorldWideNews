@@ -6,7 +6,7 @@ namespace WorldWideNews.API.Repository.Interfaces
     {
         Task<ICollection<Reporter>> GetReporters();
         Task<Reporter> GetReporterByID(int ReporterID);
-        Task<ICollection<Reporter>> GetAgencyReporters(string ReporterName);
+        Task<ICollection<Reporter>> GetAgencyReporters(string AgencyName);
         Task<bool> AddNewReporter(Reporter NewReporter);
         Task<bool> UpdateReporter(Reporter NewReporter);
         Task<bool> DeleteReporter(int ID);

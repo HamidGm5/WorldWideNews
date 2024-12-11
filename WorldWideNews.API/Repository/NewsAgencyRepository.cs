@@ -18,7 +18,10 @@ namespace WorldWideNews.API.Repository
         {
             try
             {
-                await _context.NewsAgencies.AddAsync(newAgency);
+                if (!await _context.NewsAgencies.AnyAsync(fn => fn.Name.ToLower() == newAgency.Name.ToLower()))
+                {
+                    await _context.NewsAgencies.AddAsync(newAgency);
+                }
                 return await Save();
             }
             catch
@@ -28,7 +31,7 @@ namespace WorldWideNews.API.Repository
             }
         }
 
-        public async Task<bool> DeleteAgency(int agencyId)
+        public async Task<bool> DeleteNewsAgency(int agencyId)
         {
             try
             {
@@ -59,6 +62,24 @@ namespace WorldWideNews.API.Repository
             }
         }
 
+        public async Task<NewsAgency> GetNewsAgencyByID(int NewsAgencyID)
+        {
+            try
+            {
+                var NewsAgency = await _context.NewsAgencies.FindAsync(NewsAgencyID);
+                if (NewsAgency != null)
+                {
+                    return NewsAgency;
+                }
+                return new NewsAgency();
+            }
+            catch
+            {
+                //log exception
+                throw;
+            }
+        }
+
         public async Task<NewsAgency> GetNewsAgencyByName(string Name)
         {
             try
@@ -82,7 +103,7 @@ namespace WorldWideNews.API.Repository
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<bool> UpdateAgency(NewsAgency newAgency)
+        public async Task<bool> UpdateNewsAgency(NewsAgency newAgency)
         {
             try
             {

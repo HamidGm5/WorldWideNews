@@ -6,9 +6,10 @@ namespace WorldWideNews.API.Repository.Interfaces
     {
         Task<ICollection<NewsAgency>> GetNewsAgencies();
         Task<NewsAgency> GetNewsAgencyByName(string Name);
+        Task<NewsAgency> GetNewsAgencyByID(int NewsAgencyID);
         Task<bool> AddNewsAgency(NewsAgency newAgency);
-        Task<bool> UpdateAgency(NewsAgency newAgency);
-        Task<bool> DeleteAgency(int agencyId);
+        Task<bool> UpdateNewsAgency(NewsAgency newAgency);
+        Task<bool> DeleteNewsAgency(int agencyId);
         Task<bool> Save();
     }
 }

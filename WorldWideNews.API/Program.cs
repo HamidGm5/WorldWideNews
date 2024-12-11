@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WorldWideNews.API.Data;
+using WorldWideNews.API.Repository;
+using WorldWideNews.API.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,15 @@ builder.Services.AddDbContext<DataContext>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
     );
+
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<INewsAgencyRepository, NewsAgencyRepository>();
+builder.Services.AddScoped<INewsRepository, NewsRepository>();
+builder.Services.AddScoped<IReporterRepository, ReporterRepository>();
+
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

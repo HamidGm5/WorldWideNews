@@ -35,7 +35,7 @@ namespace WorldWideNews.API.Repository
         {
             try
             {
-                var FindCountry = await _context.Countries.FindAsync(Name);
+                var FindCountry = await _context.Countries.Where(fc => fc.Name.ToLower() == Name.ToLower()).FirstOrDefaultAsync();
                 if (FindCountry != null)
                 {
                     _context.Countries.Remove(FindCountry);
@@ -59,9 +59,9 @@ namespace WorldWideNews.API.Repository
         {
             try
             {
-                var FindCountries = await _context.Countries.Where(cn => 
+                var FindCountries = await _context.Countries.Where(cn =>
                     cn.Name.ToLower().StartsWith(Name.ToLower())).ToListAsync();
-               
+
                 return FindCountries;
             }
             catch
@@ -71,11 +71,11 @@ namespace WorldWideNews.API.Repository
             }
         }
 
-        public async Task<Country> GetCountryByName(string Name)
+        public async Task<Country> GetCountryByID(int ID)
         {
             try
             {
-                var Country = await _context.Countries.FirstOrDefaultAsync(cn => cn.Name.ToLower() == Name.ToLower());
+                var Country = await _context.Countries.FindAsync(ID);
                 if (Country != null)
                 {
                     return Country;

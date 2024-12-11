@@ -6,7 +6,7 @@ namespace WorldWideNews.API.Repository.Interfaces
     {
         Task<ICollection<Country>> GetCountries();
         Task<ICollection<Country>> GetCountriesByName(string Name); // for filter by countries name
-        Task<Country> GetCountryByName(string Name);
+        Task<Country> GetCountryByID(int ID);
         Task<bool> AddNewCountry(Country country);
         Task<bool> UpdateCountry(Country country);
         Task<bool> DeleteCountry(string Name);

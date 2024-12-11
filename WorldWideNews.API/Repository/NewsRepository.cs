@@ -19,18 +19,6 @@ namespace WorldWideNews.API.Repository
             try
             {
                 await _context.News.AddAsync(newNews);
-                if (!await _context.CountryCategories.AnyAsync() || !await _context.CountryCategories.AnyAsync())
-                {
-                    var NewCountryCategory = new CountryCategories()
-                    {
-                        CountryID = CountryID,
-                        CategoryID = CategoryID,
-                        Category = await _context.Categories.FindAsync(CategoryID),
-                        Country = await _context.Countries.FindAsync(CountryID)
-                    };
-
-                    await _context.CountryCategories.AddAsync(NewCountryCategory);
-                }
                 return await Save();
             }
             catch

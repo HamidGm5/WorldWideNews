@@ -12,6 +12,7 @@ namespace WorldWideNews.API.Controllers
     {
         private readonly INewsRepository _repository;
         private readonly IReporterRepository _reporterRepository;
+        private readonly INewsAgencyRepository _agencyRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -19,13 +20,15 @@ namespace WorldWideNews.API.Controllers
         public NewsController(INewsRepository repository,
             IReporterRepository reporterRepository,
             ICountryRepository countryRepository,
-            ICategoryRepository categoryRepository
-            , IMapper mapper)
+            ICategoryRepository categoryRepository,
+            INewsAgencyRepository agencyRepository,
+            IMapper mapper)
         {
             _repository = repository;
             _reporterRepository = reporterRepository;
             _countryRepository = countryRepository;
             _categoryRepository = categoryRepository;
+            _agencyRepository = agencyRepository;
             _mapper = mapper;
         }
 
@@ -141,9 +144,16 @@ namespace WorldWideNews.API.Controllers
 
                     var NewsMap = _mapper.Map<News>(NewNews);
 
-                    NewsMap.ReporterName = Reporter.Name;
-                    NewsMap.NewsAgency = Reporter.NewsAgency;
+
+                    // Relations 
+
+                    var Agency = await _agencyRepository.GetNewsAgencyByName(Reporter.NewsAgencyName);
+                    NewsMap.Reporter = Reporter;
+                    NewsMap.NewsAgency = Agency;
                     NewsMap.NewsAgencyName = Reporter.NewsAgencyName;
+                    NewsMap.ReporterName = Reporter.Name;
+
+
                     NewsMap.CountryCategories = new CountryCategories()
                     {
                         CategoryID = CategoryID,

@@ -84,6 +84,7 @@ namespace WorldWideNews.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NewsAgencyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NewsAgencyID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

@@ -162,6 +162,10 @@ namespace WorldWideNews.API.Migrations
                     b.Property<int>("NewsAgencyID")
                         .HasColumnType("int");
 
+                    b.Property<string>("NewsAgencyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.HasIndex("NewsAgencyID");

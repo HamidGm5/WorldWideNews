@@ -84,7 +84,9 @@ namespace WorldWideNews.API.Controllers
                 if (ModelState.IsValid)
                 {
                     var ReporterMap = _mapper.Map<Reporter>(newReporter);
-                    ReporterMap.NewsAgency = await _newsAgencyRepository.GetNewsAgencyByID(AgencyID);
+                    var NewsAgency = await _newsAgencyRepository.GetNewsAgencyByID(AgencyID);
+                    ReporterMap.NewsAgency = NewsAgency;
+                    ReporterMap.NewsAgencyName = NewsAgency.Name;
 
                     if (await _repository.AddNewReporter(ReporterMap))
                     {

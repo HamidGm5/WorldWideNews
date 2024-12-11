@@ -58,6 +58,24 @@ namespace WorldWideNews.API.Repository
             }
         }
 
+        public async Task<Category> GetCategoryByID(int CategoryID)
+        {
+            try
+            {
+                var category = await _context.Categories.FindAsync(CategoryID);
+                if (category == null)
+                {
+                    return new Category();
+                }
+                return category;
+            }
+            catch
+            {
+                // log exception
+                throw;
+            }
+        }
+
         public async Task<Category> GetNewsCategory(string CategoryName)
         {
             try

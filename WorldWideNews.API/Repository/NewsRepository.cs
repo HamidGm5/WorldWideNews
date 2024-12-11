@@ -14,11 +14,23 @@ namespace WorldWideNews.API.Repository
             _context = context;
         }
 
-        public async Task<bool> AddNews(News newNews)
+        public async Task<bool> AddNews(News newNews, int CategoryID, int CountryID)
         {
             try
             {
                 await _context.News.AddAsync(newNews);
+                if (!await _context.CountryCategories.AnyAsync() || !await _context.CountryCategories.AnyAsync())
+                {
+                    var NewCountryCategory = new CountryCategories()
+                    {
+                        CountryID = CountryID,
+                        CategoryID = CategoryID,
+                        Category = await _context.Categories.FindAsync(CategoryID),
+                        Country = await _context.Countries.FindAsync(CountryID)
+                    };
+
+                    await _context.CountryCategories.AddAsync(NewCountryCategory);
+                }
                 return await Save();
             }
             catch
@@ -72,9 +84,9 @@ namespace WorldWideNews.API.Repository
             {
                 if (CategoryID == 0)
                 {
-                    var Country = await _context.News.Where(cn => 
+                    var Country = await _context.News.Where(cn =>
                             cn.CountryCategories.CountryID == CountryID).FirstOrDefaultAsync();
-                    
+
                     if (CountryID != 0)
                     {
                         var CountryNews = await _context.News.Where(ne => ne.CountryCategories.CountryID == CountryID).ToListAsync();
@@ -84,7 +96,7 @@ namespace WorldWideNews.API.Repository
                 }
                 else
                 {
-                    var Country = await _context.News.Where(c => 
+                    var Country = await _context.News.Where(c =>
                             c.CountryCategories.CategoryID == CategoryID).FirstOrDefaultAsync();
                     if (Country != null)
                     {
@@ -94,6 +106,24 @@ namespace WorldWideNews.API.Repository
                     }
                     return null;
                 }
+            }
+            catch
+            {
+                //log exception
+                throw;
+            }
+        }
+
+        public async Task<News> GetNewsByID(int ID)
+        {
+            try
+            {
+                var FindNews = await _context.News.FindAsync(ID);
+                if (FindNews != null)
+                {
+                    return FindNews;
+                }
+                return new News();
             }
             catch
             {

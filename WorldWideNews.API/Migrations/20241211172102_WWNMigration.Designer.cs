@@ -12,7 +12,7 @@ using WorldWideNews.API.Data;
 namespace WorldWideNews.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241210081558_WWNMigration")]
+    [Migration("20241211172102_WWNMigration")]
     partial class WWNMigration
     {
         /// <inheritdoc />
@@ -164,6 +164,10 @@ namespace WorldWideNews.API.Migrations
 
                     b.Property<int>("NewsAgencyID")
                         .HasColumnType("int");
+
+                    b.Property<string>("NewsAgencyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 

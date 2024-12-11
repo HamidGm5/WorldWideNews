@@ -26,7 +26,7 @@ namespace WorldWideNews.API.Controllers
             return Ok(await _repository.GetCountries());
         }
 
-        [HttpGet("{ID:int}")]
+        [HttpGet("{ID:int}" , Name = "GetCountryByID")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -70,7 +70,7 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost(Name = "AddNewCountry")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
 
@@ -95,7 +95,7 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut(Name = "UpdateCountry")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -127,7 +127,7 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpDelete("{CountryName}")]
+        [HttpDelete("{CountryName}" , Name = "DeleteCountry")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

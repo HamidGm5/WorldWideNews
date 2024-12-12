@@ -191,13 +191,12 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPut("{NewsID:int}/{ReporterID:int}/{CategoryID:int}/{CountryID:int}", Name = "UpdateNews")]
+        [HttpPut("{NewsID:int}/{ReporterID:int}", Name = "UpdateNews")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<bool>> UpdateNews(int NewsID, int ReporterID, int CategoryID, int CountryID
-                                , [FromBody] NewsDto NewNews)
+        public async Task<ActionResult<bool>> UpdateNews(int NewsID, int ReporterID, [FromBody] NewsDto NewNews)
         {
             try
             {
@@ -215,42 +214,6 @@ namespace WorldWideNews.API.Controllers
                     NewsMap.NewsAgency = Reporter.NewsAgency;
                     NewsMap.ReporterName = Reporter.Name;
                     NewsMap.NewsAgencyName = Reporter.NewsAgencyName;
-
-                    var Country = new Country();
-
-                    if (CountryID == 0)
-                    {
-                        Country = _countryRepository.GetCountriesByName("World").Result.FirstOrDefault();
-                    }
-                    else
-                    {
-                        Country = await _countryRepository.GetCountryByID(CountryID);
-                    }
-
-                    if (Country == new Country())
-                    {
-                        return NotFound();
-                    }
-
-                    var Category = new Category();
-
-                    if (CategoryID == 0)
-                    {
-                        Category = await _categoryRepository.GetNewsCategory("Common");
-
-                    }
-                    else
-                    {
-                        Category = await _categoryRepository.GetCategoryByID(CategoryID);
-                    }
-
-                    NewsMap.CountryCategories = new CountryCategories()
-                    {
-                        Category = Category,
-                        CategoryID = CategoryID,
-                        Country = Country,
-                        CountryID = CountryID,
-                    };
 
                     if (await _repository.UpdateNews(NewsID, NewsMap))
                     {

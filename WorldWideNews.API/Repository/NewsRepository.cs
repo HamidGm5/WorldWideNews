@@ -146,7 +146,6 @@ namespace WorldWideNews.API.Repository
                     FindNews.Reporter = newNews.Reporter;
                     FindNews.ReporterName = newNews.ReporterName;
                     FindNews.Date = newNews.Date;
-                    FindNews.CountryCategories = newNews.CountryCategories;
 
                     _context.News.Update(FindNews);
                 }

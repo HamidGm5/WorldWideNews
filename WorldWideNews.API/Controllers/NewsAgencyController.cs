@@ -91,7 +91,7 @@ namespace WorldWideNews.API.Controllers
                 if (await _repository.GetNewsAgencyByID(NewsAgencyID) != new NewsAgency())
                 {
                     var NewsAgencyMap = _mapper.Map<NewsAgency>(newNewsAgency);
-                    if (await _repository.UpdateNewsAgency(NewsAgencyMap))
+                    if (await _repository.UpdateNewsAgency(NewsAgencyID,NewsAgencyMap))
                     {
                         return Ok("Successfully");
                     }

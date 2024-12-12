@@ -94,11 +94,19 @@ namespace WorldWideNews.API.Repository
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<bool> UpdateCategory(Category NewCategory)
+        public async Task<bool> UpdateCategory(int CategoryID, Category NewCategory)
         {
             try
             {
-                _context.Categories.Update(NewCategory);
+                var FindCategory = await _context.Categories.FindAsync(CategoryID);
+                if (FindCategory != null)
+                {
+                    FindCategory.Name = NewCategory.Name;
+                    FindCategory.Icon = NewCategory.Icon;
+                   
+                    _context.Categories.Update(FindCategory);
+                }
+
                 return await Save();
             }
             catch

@@ -72,12 +72,12 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPut(Name = "UpdateCategory")]
+        [HttpPut("{CategoryID:int}", Name = "UpdateCategory")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<bool>> UpdateCategory([FromBody] CategoryDto UpdateCategory)
+        public async Task<ActionResult<bool>> UpdateCategory(int CategoryID, [FromBody] CategoryDto UpdateCategory)
         {
             try
             {
@@ -86,11 +86,11 @@ namespace WorldWideNews.API.Controllers
                     return BadRequest();
                 }
 
-                if (await _repository.GetNewsCategory(UpdateCategory.Name) != null)
+                if (await _repository.GetCategoryByID(CategoryID) != null)
                 {
                     var CategoryMap = _mapper.Map<Category>(UpdateCategory);
-                    
-                    if (await _repository.UpdateCategory(CategoryMap))
+
+                    if (await _repository.UpdateCategory(CategoryID, CategoryMap))
                     {
                         return Ok("Successfully");
                     }
@@ -103,7 +103,7 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpDelete("{CategoryID:int}",Name ="")]
+        [HttpDelete("{CategoryID:int}", Name = "")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
 
@@ -111,7 +111,7 @@ namespace WorldWideNews.API.Controllers
         {
             try
             {
-                if(await _repository.DeleteCategory(CategoryID))
+                if (await _repository.DeleteCategory(CategoryID))
                 {
                     return Ok("Successfully");
                 }

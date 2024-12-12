@@ -116,7 +116,7 @@ namespace WorldWideNews.API.Controllers
                     {
                         var ReporterMap = _mapper.Map<Reporter>(UpdateReporter);
 
-                        if (await _repository.UpdateReporter(ReporterMap))
+                        if (await _repository.UpdateReporter(ReporterID,ReporterMap))
                         {
                             return Ok("Successfully");
                         }

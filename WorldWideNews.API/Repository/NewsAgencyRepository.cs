@@ -103,11 +103,19 @@ namespace WorldWideNews.API.Repository
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<bool> UpdateNewsAgency(NewsAgency newAgency)
+        public async Task<bool> UpdateNewsAgency(int NewsAgencyID, NewsAgency newAgency)
         {
             try
             {
-                _context.NewsAgencies.Update(newAgency);
+                var FindAgency = await _context.NewsAgencies.FindAsync(NewsAgencyID);
+                if (FindAgency != null)
+                {
+                    FindAgency.Name = newAgency.Name;
+                    FindAgency.Image = newAgency.Image;
+                    
+                    _context.NewsAgencies.Update(FindAgency);
+                }
+
                 return await Save();
             }
             catch

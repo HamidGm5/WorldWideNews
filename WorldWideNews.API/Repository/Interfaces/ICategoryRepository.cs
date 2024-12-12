@@ -8,7 +8,7 @@ namespace WorldWideNews.API.Repository.Interfaces
         Task<Category> GetNewsCategory(string CategoryName);
         Task<Category> GetCategoryByID(int CategoryID);
         Task<bool> AddNewCategory(Category NewCategory);
-        Task<bool> UpdateCategory(Category NewCategory);
+        Task<bool> UpdateCategory(int CategoryID,Category NewCategory);
         Task<bool> DeleteCategory(int ID);
         Task<bool> Save();
     }

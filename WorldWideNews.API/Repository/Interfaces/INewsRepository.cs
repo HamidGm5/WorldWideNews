@@ -9,8 +9,8 @@ namespace WorldWideNews.API.Repository.Interfaces
         Task<ICollection<News>> GetNewsByCountryFilter(int CategoryID, int CountryID);
         Task<ICollection<News>> GetNewsByTitle(string Title);
         Task<News> GetNewsByID(int ID);
-        Task<bool> AddNews(News newNews ,int CountryID , int CategoryID);
-        Task<bool> UpdateNews(News newNews);
+        Task<bool> AddNews(News newNews);
+        Task<bool> UpdateNews(int NewsID, News newNews);
         Task<bool> DeleteNews(int ID);
         Task<bool> Save();
     }

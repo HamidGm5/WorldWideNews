@@ -176,7 +176,7 @@ namespace WorldWideNews.API.Controllers
                         Country = Country
                     };
 
-                    if (await _repository.AddNews(NewsMap, CountryID, CategoryID))
+                    if (await _repository.AddNews(NewsMap))
                     {
                         return Ok("Successfully");
                     }
@@ -204,7 +204,7 @@ namespace WorldWideNews.API.Controllers
                 if (ModelState.IsValid)
                 {
                     var NewsMap = _mapper.Map<News>(NewNews);
-                    var Reporter = await _reporterRepository.GetReporterByID(NewsID);
+                    var Reporter = await _reporterRepository.GetReporterByID(ReporterID);
 
                     if (Reporter == new Reporter())
                     {
@@ -216,7 +216,16 @@ namespace WorldWideNews.API.Controllers
                     NewsMap.ReporterName = Reporter.Name;
                     NewsMap.NewsAgencyName = Reporter.NewsAgencyName;
 
-                    var Country = await _countryRepository.GetCountryByID(CountryID);
+                    var Country = new Country();
+
+                    if (CountryID == 0)
+                    {
+                        Country = _countryRepository.GetCountriesByName("World").Result.FirstOrDefault();
+                    }
+                    else
+                    {
+                        Country = await _countryRepository.GetCountryByID(CountryID);
+                    }
 
                     if (Country == new Country())
                     {
@@ -227,11 +236,12 @@ namespace WorldWideNews.API.Controllers
 
                     if (CategoryID == 0)
                     {
-                        Category = await _categoryRepository.GetCategoryByID(CategoryID);
+                        Category = await _categoryRepository.GetNewsCategory("Common");
+
                     }
                     else
                     {
-                        Category = await _categoryRepository.GetNewsCategory("Common");
+                        Category = await _categoryRepository.GetCategoryByID(CategoryID);
                     }
 
                     NewsMap.CountryCategories = new CountryCategories()
@@ -242,7 +252,7 @@ namespace WorldWideNews.API.Controllers
                         CountryID = CountryID,
                     };
 
-                    if (await _repository.UpdateNews(NewsMap))
+                    if (await _repository.UpdateNews(NewsID, NewsMap))
                     {
                         return Ok("Successfully");
                     }

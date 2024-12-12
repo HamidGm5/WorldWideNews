@@ -26,7 +26,7 @@ namespace WorldWideNews.API.Controllers
             return Ok(await _repository.GetCountries());
         }
 
-        [HttpGet("{ID:int}" , Name = "GetCountryByID")]
+        [HttpGet("{ID:int}", Name = "GetCountryByID")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -95,12 +95,12 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPut(Name = "UpdateCountry")]
+        [HttpPut("{CountryID:int}", Name = "UpdateCountry")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<bool>> UpdateCountry([FromBody] CountryDto UpdateCountry)
+        public async Task<ActionResult<bool>> UpdateCountry(int CountryID, [FromBody] CountryDto UpdateCountry)
         {
             try
             {
@@ -109,10 +109,10 @@ namespace WorldWideNews.API.Controllers
                     return BadRequest();
                 }
 
-                if (await _repository.GetCountryByID(UpdateCountry.ID) != null)
+                if (await _repository.GetCountryByID(CountryID) != null)
                 {
                     var CountryMap = _mapper.Map<Country>(UpdateCountry);
-                    if (await _repository.UpdateCountry(CountryMap))
+                    if (await _repository.UpdateCountry(CountryID, CountryMap))
                     {
                         return Ok("SuccessFully");
                     }
@@ -127,7 +127,7 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpDelete("{CountryName}" , Name = "DeleteCountry")]
+        [HttpDelete("{CountryName}", Name = "DeleteCountry")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

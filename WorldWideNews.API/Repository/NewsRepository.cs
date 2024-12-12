@@ -14,7 +14,7 @@ namespace WorldWideNews.API.Repository
             _context = context;
         }
 
-        public async Task<bool> AddNews(News newNews, int CategoryID, int CountryID)
+        public async Task<bool> AddNews(News newNews)
         {
             try
             {
@@ -134,11 +134,23 @@ namespace WorldWideNews.API.Repository
             }
         }
 
-        public async Task<bool> UpdateNews(News newNews)
+        public async Task<bool> UpdateNews(int NewsID, News newNews)
         {
             try
             {
-                var UpdateNews = _context.News.Update(newNews);
+                var FindNews = await _context.News.FindAsync(NewsID);
+                if (FindNews != null)
+                {
+                    FindNews.Text = newNews.Text;
+                    FindNews.Title = newNews.Title;
+                    FindNews.Reporter = newNews.Reporter;
+                    FindNews.ReporterName = newNews.ReporterName;
+                    FindNews.Date = newNews.Date;
+                    FindNews.CountryCategories = newNews.CountryCategories;
+
+                    _context.News.Update(FindNews);
+                }
+
                 return await Save();
             }
             catch

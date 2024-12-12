@@ -94,11 +94,22 @@ namespace WorldWideNews.API.Repository
             return await _context.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<bool> UpdateCountry(Country country)
+        public async Task<bool> UpdateCountry(int CountryID, Country country)
         {
             try
             {
-                _context.Countries.Update(country);
+                var FindCountry = await _context.Countries.FindAsync(CountryID);
+                if (FindCountry != null)
+                {
+                    if (await _context.Countries.Where(c => c.Name.ToLower() == country.Name.ToLower())
+                            .FirstOrDefaultAsync() == null)
+                    {
+                        FindCountry.Name = country.Name;
+
+                        _context.Countries.Update(FindCountry);
+                    }
+                }
+
                 return await Save();
             }
             catch

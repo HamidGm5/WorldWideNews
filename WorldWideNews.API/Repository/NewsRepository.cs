@@ -72,27 +72,14 @@ namespace WorldWideNews.API.Repository
             {
                 if (CategoryID == 0)
                 {
-                    var Country = await _context.News.Where(cn =>
-                            cn.CountryCategories.CountryID == CountryID).FirstOrDefaultAsync();
-
-                    if (CountryID != 0)
-                    {
-                        var CountryNews = await _context.News.Where(ne => ne.CountryCategories.CountryID == CountryID).ToListAsync();
-                        return CountryNews;
-                    }
-                    return null;
+                    var CountryNews = await _context.News.Where(ne => ne.CountryCategories.CountryID == CountryID).ToListAsync();
+                    return CountryNews;
                 }
                 else
                 {
-                    var Country = await _context.News.Where(c =>
-                            c.CountryCategories.CategoryID == CategoryID).FirstOrDefaultAsync();
-                    if (Country != null)
-                    {
-                        var News = await _context.News.Where(cn => cn.CountryCategories.CategoryID == CategoryID &&
-                                                            cn.CountryCategories.CountryID == CountryID).ToListAsync();
-                        return News;
-                    }
-                    return null;
+                    var News = await _context.News.Where(cn => cn.CountryCategories.CategoryID == CategoryID &&
+                                                        cn.CountryCategories.CountryID == CountryID).ToListAsync();
+                    return News;
                 }
             }
             catch

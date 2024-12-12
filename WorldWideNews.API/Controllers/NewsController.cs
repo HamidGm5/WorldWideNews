@@ -93,8 +93,13 @@ namespace WorldWideNews.API.Controllers
         {
             try
             {
-                var News = await _repository.GetNewsByCountryFilter(CountryID, CategoryID);
-                if (News.Count > 0)
+                if (CountryID == 0)
+                {
+                    CountryID = _countryRepository.GetCountriesByName("world").Result.FirstOrDefault().ID;
+                }
+
+                var News = await _repository.GetNewsByCountryFilter(CategoryID, CountryID);
+                if (News.Count > 0 || News != null)
                 {
                     return Ok(News);
                 }
@@ -118,7 +123,16 @@ namespace WorldWideNews.API.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var Country = await _countryRepository.GetCountryByID(CountryID);
+                    var Country = new Country();
+
+                    if (CountryID == 0)
+                    {
+                        Country = _countryRepository.GetCountriesByName("World").Result.FirstOrDefault();
+                    }
+                    else
+                    {
+                        Country = await _countryRepository.GetCountryByID(CountryID);
+                    }
 
                     if (Country == new Country())
                     {

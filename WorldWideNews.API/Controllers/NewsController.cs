@@ -49,6 +49,11 @@ namespace WorldWideNews.API.Controllers
         {
             try
             {
+                if (_categoryRepository.GetCategoryByID(CategoryID).Result.ID == 0)
+                {
+                    return NotFound();
+                }
+
                 var News = await _repository.GetNewsByCategory(CategoryID);
                 if (News == new News())
                 {
@@ -99,11 +104,12 @@ namespace WorldWideNews.API.Controllers
                 }
 
                 var News = await _repository.GetNewsByCountryFilter(CategoryID, CountryID);
-                if (News.Count > 0 || News != null)
+                if (News.Count <= 0 || News != null)
                 {
-                    return Ok(News);
+                    return NotFound();
                 }
-                return NotFound();
+                return Ok(News);
+
             }
             catch
             {

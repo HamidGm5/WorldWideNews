@@ -38,7 +38,7 @@ namespace WorldWideNews.API.Controllers
             try
             {
                 var NewsAgency = await _repository.GetNewsAgencyByName(NewsAgencyName);
-                if (NewsAgency != new NewsAgency())
+                if (NewsAgency != null)
                 {
                     return Ok(NewsAgency);
                 }

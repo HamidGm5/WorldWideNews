@@ -89,7 +89,7 @@ namespace WorldWideNews.API.Repository
                 {
                     return Agency;
                 }
-                return new NewsAgency();
+                return null;
             }
             catch
             {
@@ -112,7 +112,7 @@ namespace WorldWideNews.API.Repository
                 {
                     FindAgency.Name = newAgency.Name;
                     FindAgency.Image = newAgency.Image;
-                    
+
                     _context.NewsAgencies.Update(FindAgency);
                 }
 

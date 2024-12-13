@@ -69,7 +69,7 @@ namespace WorldWideNews.API.Repository
                 {
                     return Reporter;
                 }
-                return new Reporter();
+                return null;
             }
             catch
             {

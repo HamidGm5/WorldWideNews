@@ -61,7 +61,7 @@ namespace WorldWideNews.API.Controllers
             try
             {
                 var reporter = await _repository.GetReporterByID(ReporterID);
-                if (reporter == new Reporter())
+                if (reporter == null )
                 {
                     return NotFound();
                 }

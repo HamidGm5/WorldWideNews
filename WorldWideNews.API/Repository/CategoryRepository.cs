@@ -101,10 +101,13 @@ namespace WorldWideNews.API.Repository
                 var FindCategory = await _context.Categories.FindAsync(CategoryID);
                 if (FindCategory != null)
                 {
-                    FindCategory.Name = NewCategory.Name;
-                    FindCategory.Icon = NewCategory.Icon;
-                   
-                    _context.Categories.Update(FindCategory);
+                    if (!await _context.Categories.Where(fc => fc.Name.ToLower() == NewCategory.Name.ToLower()).AnyAsync())
+                    {
+                        FindCategory.Name = NewCategory.Name;
+                        FindCategory.Icon = NewCategory.Icon;
+
+                        _context.Categories.Update(FindCategory);
+                    }
                 }
 
                 return await Save();

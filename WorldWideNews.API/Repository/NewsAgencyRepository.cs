@@ -110,10 +110,13 @@ namespace WorldWideNews.API.Repository
                 var FindAgency = await _context.NewsAgencies.FindAsync(NewsAgencyID);
                 if (FindAgency != null)
                 {
-                    FindAgency.Name = newAgency.Name;
-                    FindAgency.Image = newAgency.Image;
+                    if (!await _context.NewsAgencies.Where(fn => fn.Name.ToLower() == newAgency.Name.ToLower()).AnyAsync())
+                    {
+                        FindAgency.Name = newAgency.Name;
+                        FindAgency.Image = newAgency.Image;
 
-                    _context.NewsAgencies.Update(FindAgency);
+                        _context.NewsAgencies.Update(FindAgency);
+                    }
                 }
 
                 return await Save();

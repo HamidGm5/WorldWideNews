@@ -143,8 +143,6 @@ namespace WorldWideNews.API.Repository
                 {
                     FindNews.Text = newNews.Text;
                     FindNews.Title = newNews.Title;
-                    FindNews.Reporter = newNews.Reporter;
-                    FindNews.ReporterName = newNews.ReporterName;
                     FindNews.Date = newNews.Date;
 
                     _context.News.Update(FindNews);

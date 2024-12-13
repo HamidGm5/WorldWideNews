@@ -191,30 +191,18 @@ namespace WorldWideNews.API.Controllers
             }
         }
 
-        [HttpPut("{NewsID:int}/{ReporterID:int}", Name = "UpdateNews")]
+        [HttpPut("{NewsID:int}", Name = "UpdateNews")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public async Task<ActionResult<bool>> UpdateNews(int NewsID, int ReporterID, [FromBody] NewsDto NewNews)
+        public async Task<ActionResult<bool>> UpdateNews(int NewsID, [FromBody] NewsDto NewNews)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     var NewsMap = _mapper.Map<News>(NewNews);
-                    var Reporter = await _reporterRepository.GetReporterByID(ReporterID);
-
-                    if (Reporter == new Reporter())
-                    {
-                        return NotFound();
-                    }
-
-                    NewsMap.Reporter = Reporter;
-                    NewsMap.NewsAgency = Reporter.NewsAgency;
-                    NewsMap.ReporterName = Reporter.Name;
-                    NewsMap.NewsAgencyName = Reporter.NewsAgencyName;
-
                     if (await _repository.UpdateNews(NewsID, NewsMap))
                     {
                         return Ok("Successfully");

@@ -112,8 +112,17 @@ namespace WorldWideNews.API.Repository
                 {
                     if (!await _context.NewsAgencies.Where(fn => fn.Name.ToLower() == newAgency.Name.ToLower()).AnyAsync())
                     {
-                        FindAgency.Name = newAgency.Name;
                         FindAgency.Image = newAgency.Image;
+                        
+                        if (FindAgency.Name.ToLower() != newAgency.Name.ToLower())
+                        {
+                            foreach (var reporter in
+                                await _context.Reporters.Where(fr => fr.NewsAgency.ID == NewsAgencyID).ToListAsync())
+                            {
+                                reporter.NewsAgencyName = newAgency.Name;
+                            }
+                            FindAgency.Name = newAgency.Name;
+                        }
 
                         _context.NewsAgencies.Update(FindAgency);
                     }

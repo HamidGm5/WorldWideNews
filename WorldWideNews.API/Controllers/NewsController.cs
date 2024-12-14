@@ -104,7 +104,7 @@ namespace WorldWideNews.API.Controllers
                 }
 
                 var News = await _repository.GetNewsByCountryFilter(CategoryID, CountryID);
-                if (News.Count <= 0 || News != null)
+                if (News.Count <= 0 || News == null)
                 {
                     return NotFound();
                 }
